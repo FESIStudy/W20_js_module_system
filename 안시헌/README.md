@@ -1,0 +1,2 @@
+- package.json에 쓰는 type: module의 의미
+- <script type="module" src="/src/main.tsx"></script> 의미
