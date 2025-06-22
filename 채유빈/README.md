@@ -6,6 +6,8 @@
     - **전역 변수 충돌**: 여러 스크립트가 동일한 전역 변수를 사용하면 충돌이 발생한다.
     - **의존성 관리 어려움**: 의존성을 올바른 순서에 위치시켜야 했고, 순서가 지켜지지 않으면 제대로 실행되지 않는다.
 
+<br/>
+
 ## CommonJS
 
 ### CommonJS의 등장
@@ -19,6 +21,8 @@
 - 위의 발표 덕분에 CommonJS가 만들어졌고, CommonS에 의해 모듈 시스템이 만들어졌다.
     - CommonJS의 ‘Common’은 자바스크립트를 브라우저에서만 사용하는 언어가 아닌 범용적인 언어로 사용할 수 있게 하겠다는 의지를 나타내는 것이라고 볼 수 있다.
     - CommonJS는 하나의 워킹 그룹이다.
+
+<br/>
 
 ### CommonJS 기본 문법
 
@@ -56,6 +60,7 @@ const { add, subtract } = require('./math');
         const module = require(`./${moduleNAme}`);
         ```
         
+<br/>
 
 ### require의 동작 원리
 
@@ -67,6 +72,8 @@ const { add, subtract } = require('./math');
     - `require()`는 반드시 **동기적**으로 동작한다.
     - Node.js가 코드를 위에서 아래로 실행하다가 `require()`를 만나면, 해당 모듈 파일을 찾아 로드하고, 내부 코드를 즉시 실행하여 `module.exports`를 얻는다.
     - 모듈 로딩이 끝나야 이후 코드를 실행할 수 있다.
+
+<br/>
 
 ### 순환 참조 처리 방식
 
@@ -84,6 +91,8 @@ const { add, subtract } = require('./math');
     ```
     
 - 결과적으로 `b.js`가 `a.js`의 완전한 `exports`를 받지 못하므로 값이 `undefined`이거나 부분적으로만 초기화된다.
+
+<br/>
 
 ### 모듈 스코프와 내장 변수
 
@@ -103,6 +112,8 @@ const { add, subtract } = require('./math');
     - `exports`: `module.exports`의 단축 참조
     - `require`: 모듈 로더 함수
 
+<br/>
+
 ### Node.js에서의 적용과 한계
 
 - 장점
@@ -114,12 +125,16 @@ const { add, subtract } = require('./math');
     - Tree Shaking을 지원하지 않는다.
     - 브라우저 환경에서 직접 실행할 수 없다. (번들링 필요)
 
+<br/>
+
 ## AMD (Asynchronous Module Definition)
 
 - **비동기 상황에서도** 동작하는 자바스크립트 모듈을 만들기 위해 CommonJS에서 독립한 워킹 그룹이다.
     - CommonJS의 목적: 서버사이드에서 자바스크립트를 사용하는 것(브라우저 밖으로 꺼내기 위한 노력)
     - AMD: 브라우저 환경에서 비동기적으로 모듈을 로드하는 것에 중점을 둠
 - CommonJS에서 분리되어 나온 그룹이기 때문에, `require`나 exports같은 문법을 그대로 사용할 수 있다.
+
+<br/>
 
 ### define()
 
@@ -145,6 +160,7 @@ const { add, subtract } = require('./math');
     });
     ```
     
+<br/>
 
 ## ESM (ECMAScript Modules)
 
@@ -184,6 +200,7 @@ const { add, subtract } = require('./math');
         
         ```
         
+<br/>
 
 ### Top-level await 지원
 
@@ -207,6 +224,8 @@ const { add, subtract } = require('./math');
     - 해당 비동기 작업이 완료될 때까지 다른 모듈의 실행을 막는다.
     - 모듈 간의 실행 순서를 보장해준다.
 
+<br/>
+
 ### import와 export의 정적 구조
 
 - import와 export는 항상 파일의 최상단에 위치해야 하며, CommonJS의 require와 달리 실행 도중 동적으로 평가될 수 없다.
@@ -221,6 +240,7 @@ const { add, subtract } = require('./math');
     import util from `./utils/${utilName}.js`;
     ```
     
+<br/>
 
 ### 트리 쉐이킹
 
@@ -232,6 +252,7 @@ const { add, subtract } = require('./math');
     // 번들러가 debounce, throttle만 포함하고 나머지는 제거
     ```
     
+<br/>
 
 ### 순환 참조 처리 방식
 
@@ -257,6 +278,7 @@ const { add, subtract } = require('./math');
     
     > 초기화 이전 참조는 TDZ(Temporal Dead Zone) 오류로 잡히기도 한다.
     > 
+<br/>
 
 ### 사용법
 
@@ -275,6 +297,7 @@ const { add, subtract } = require('./math');
         - `.js` 파일을 ESM으로 사용하고 싶을 때 사용한다.
     - 또는 `.mjs` 확장자 사용
         - package.json 설정과 무관하게 항상 ESM으로 해석된다.
+<br/>
 
 ## CJS와 ESM 비교
 
@@ -289,6 +312,8 @@ const { add, subtract } = require('./math');
 | 조건부 import | 가능 | 불가능 (동적 import() 제외) |
 | 캐싱 | 지원 | 지원 |
 | 순환 참조 | 중간 상태의 `exports` 반환 | undefined 반환 또는 TDZ 문제 발생 |
+
+<br/>
 
 ## CJS, ESM 혼용 문제 및 해결 전략
 
@@ -322,13 +347,8 @@ const { add, subtract } = require('./math');
     2. 동적 import 사용 
     3. 호환 가능한 대체 패키지 찾기
     4. ESM wrapper 생성
-
-### 브라우저 환경에서의 모듈 처리
-
-- `<script type="module">`의 처리 방식
-- 모듈 스코프와 전역 변수 충돌 방지
-- 브라우저 캐시와 모듈 캐시의 차이
-- CORS 정책과 ESM import의 관계
+    
+<br/>
 
 ## 새롭게 알게 된 점
 
@@ -338,8 +358,9 @@ const { add, subtract } = require('./math');
         - Webpack (또는 다른 번들러): 서로 다른 모듈을 하나의 그래프로 통합
     - 결과적으로 브라우저 쪽 번들은 ESM 기반으로 동작하고, 서버 쪽은 Node.js에서 돌릴 수 있도록 최적화된 형태로 처리한다.
     
+<br/>
 
-## 면접 대비 심화 질문 리스트
+## 면접 대비 질문 리스트
 
 - `require()`와 `import`는 정확히 어떤 시점에 평가되는가?
     - `require()`는 CommonJS의 함수로, **런타임에 동적으로 평가**됩니다. `import`는 ES 모듈 시스템의 문법으로, **모듈 로드 단계에서 정적으로 분석되어 먼저 평가**되고, 런타임 이전에 의존성이 결정됩니다.
